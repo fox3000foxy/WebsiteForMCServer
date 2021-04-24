@@ -1,0 +1,14 @@
+{tempStart}
+<div id="featuresList">
+    <script>
+        function reqListener() {
+            document.getElementById("featuresList").innerHTML = oReq.responseText
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.onload = reqListener;
+        oReq.open("get", "/disp/html/features", true);
+        oReq.send();
+    </script>
+</div>
+{tempEnd}

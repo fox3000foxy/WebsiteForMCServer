@@ -1,0 +1,35 @@
+{tempStart}
+<div>
+    <div id="playerlist" style="text-align: left;">
+        Online players:<br>
+    </div>
+    <script>
+        function reqListener() {
+            playerArray = JSON.parse(oReq.responseText)
+            avatarException = JSON.parse(oReq2.responseText)
+            console.log(avatarException)
+            for (i = 0; i < playerArray.length; i++) {
+                let avatarURL = 'https://minotar.net/avatar/' + playerArray[i] + '.png';
+                for (let j = 0; j < avatarException.length; j++) {
+                    if (avatarException[j].name === playerArray[i]) {
+                        avatarURL = avatarException[j].redirect;
+                    }
+                }
+                document.getElementById("playerlist").innerHTML += "<img src='"+avatarURL+"' width='16px' height='16px'>\t" + playerArray[i] + "<br>";
+            }
+        }
+
+        function getPlayers() {
+            oReq = new XMLHttpRequest();
+            oReq.onload = reqListener;
+            oReq.open("get", "/players", true);
+            oReq.send();
+        }
+
+        var oReq2 = new XMLHttpRequest();
+        oReq2.onload = getPlayers;
+        oReq2.open("get", "/avatarException", true);
+        oReq2.send();
+    </script>
+</div>
+{tempEnd}

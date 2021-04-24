@@ -1,0 +1,13 @@
+{
+    "staff": "Staff",
+    "features": "Features",
+    "market": "Market",
+    "onlinePlayers": "Online players",
+    "map": "Map",
+    "irc": "IRC",
+    "partnerships": "Partnerships",
+    "feedbacks":"Feedbacks",
+    "about": "About us",
+    "login": "Login",
+    "serverIconURL": "./images/logo.png"
+}

@@ -1,0 +1,39 @@
+{tempStart}
+<div>
+    <div>
+        There is feedbacks of our players:<br>
+    </div><br>
+    <div id="feedbacksList"
+        style="width: 95%;height:50%;text-align: left;border: 10px inset white; padding: 2%; overflow-y: scroll;">
+    </div>
+    <script>
+        function reqListener() {
+            playerArray = JSON.parse(oReq.responseText)
+            for (i = 0; i < playerArray.length; i++) {
+                document.getElementById("feedbacksList").innerHTML += `${playerArray[i].name} a dit: ${playerArray[i].feedback}<br>`;
+            }
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.onload = reqListener;
+        oReq.open("get", "/feedback", true);
+        oReq.send();
+    </script>
+    <br><br>
+    <form name="feed" method="post" action="./feedback.html" onsubmit="if(!confirm('Envoyer ?')) event.preventDefault() 
+        else document.getElementById('name').disabled = false">
+        <br>
+        <label for="name"><input placeholder="Votre nom..." id="name" name="name" /></label><br>
+        <script>
+            if (document.cookie == "") document.getElementById("name").value = ""
+            else {
+                document.getElementById("name").value = document.cookie.split("user=")[1]
+                document.getElementById("name").disabled = true;
+            }
+        </script>
+        <label for="feedback"><textarea placeholder="Votre avis..." name="feedback"></textarea></label><br><br>
+        <input type="submit" />
+        <br><br>
+    </form>
+</div>
+{tempEnd}

@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    <base href="./">
+    <link rel="stylesheet" href="style/w3.css">
+    <link rel="stylesheet" href="style/text.css">
+</head>
+
+<body class="w3-animate-top">
+    <div class="white-border">
+        <div class="w3-bar bg-none">
+            <div id="staff" class="category w3-bar-item w3-hover-red bg-none" onclick="location.href='./staff.html'"></div>
+            <div id="features" class="category w3-bar-item w3-hover-green bg-none" onclick="location.href='./features.html'">
+            </div>
+            <div id="market" class="category w3-bar-item w3-hover-blue bg-none" onclick="location.href='./market.html'"></div>
+            <div id="onlinePlayers" class="category w3-bar-item w3-hover-yellow bg-none"
+                onclick="location.href='./players.html'"></div>
+            <div id="map" class="category w3-bar-item w3-hover-orange bg-none" onclick="location.href='./map.html'"></div>
+            <img id="serverIcon" class="image w3-bar-item bg-none" src="" style="width: 100px;height: 100px;"
+                onclick="location.href='./'">
+            <div id="irc" class="category w3-bar-item w3-hover-purple bg-none" onclick="location.href='./discord.html'"></div>
+            <div id="partnerships" class="category w3-bar-item w3-hover-gray bg-none"
+                onclick="location.href='./partnerships.html'"></div>
+            <div id="feedbacks" class="category w3-bar-item w3-hover-cyan bg-none" onclick="location.href='./feedback.html'">
+            </div>
+            <div id="about" class="category w3-bar-item w3-hover-teal bg-none" onclick="location.href='./about.html'"></div>
+            <div id="login" class="category w3-bar-item w3-hover-brown bg-none" onclick="location.href='./login.html'"></div>
+        </div>
+        <h1 id="title"></h1>
+        <div id="description" class="title"></div><br>
+    </div>
+    <script>
+        function reqListener() {
+            tabs = JSON.parse(tabsReq.responseText)
+            document.getElementById("staff").innerHTML = tabs.staff
+            document.getElementById("features").innerHTML = tabs.features
+            document.getElementById("market").innerHTML = tabs.market
+            document.getElementById("onlinePlayers").innerHTML = tabs.onlinePlayers
+            document.getElementById("map").innerHTML = tabs.map
+            document.getElementById("serverIcon").src = tabs.serverIconURL
+            document.getElementById("irc").innerHTML = tabs.irc
+            document.getElementById("partnerships").innerHTML = tabs.partnerships
+            document.getElementById("feedbacks").innerHTML = tabs.feedbacks
+            document.getElementById("about").innerHTML = tabs.about
+            if (document.cookie == "") document.getElementById("login").innerHTML = "Login"
+            else document.getElementById("login").innerHTML = document.cookie.split("user=")[1]
+        }
+        tabsReq = new XMLHttpRequest();
+        tabsReq.onload = reqListener;
+        tabsReq.open("get", "/disp/json/tabs", true);
+        tabsReq.send();
+
+        function setTitle() {
+            titles = JSON.parse(titleReq.responseText)
+            document.title = titles.title
+            document.getElementById("title").innerHTML = titles.title
+            document.getElementById("description").innerHTML = titles.description
+        }
+
+        titleReq = new XMLHttpRequest();
+        titleReq.onload = setTitle;
+        titleReq.open("get", "/disp/json/titles", true);
+        titleReq.send();
+    </script>
+    <div class="white-border" style="height:72%">
+        <br>

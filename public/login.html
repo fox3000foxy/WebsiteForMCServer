@@ -1,0 +1,54 @@
+{tempStart}
+<div id="loginForm" style="font-size:20px">
+</div>
+<div style="visibility: hidden;" id="if">
+    <form action="/login.html" method="get" onsubmit="disconnect()">
+        <br>
+        <div style='font-family: Impact;'>Logged</div>
+        <div id="loggedAs"></div><br>
+        <script>
+            document.getElementById("loggedAs").innerHTML = "You're logged in as " + document.cookie.split("user=")[1]
+        </script>
+        <input type="submit" value="Se déconnecter">
+        <br><br>
+    </form>
+</div>
+<div style="visibility: hidden;" id="else">
+    <form method="post" action="/login.html">
+        <br>
+        <div style='font-family: Impact;'>Login</div>
+        <input name="user" placeholder="Your name..."><br>
+        <input name="password" type="password" placeholder="Your password..."><br><br>
+        <input type="submit">
+        <br><br>
+    </form>
+    <form method="post" action="/signup" onsubmit="event.preventDefault();
+        if(!this.password.value==this.confirmpassword.value)
+        {
+            alert('Password don\'t match !')
+        }
+        else
+        {
+            this.submit()        
+        }">
+        <br>
+        <div style='font-family: Impact;'>Sign Up</div>
+        <input name="user" placeholder="Your name..."><br>
+        <input name="password" type="password" placeholder="Your password..."><br>
+        <input name="confirmpassword" type="password" placeholder="Your password again..."><br>
+        <input name="nameig" placeholder="Your name in game..."><br><br>
+        <input type="submit">
+        <br><br>
+    </form>
+</div>
+<script>
+    function disconnect() {
+        document.cookie = 'user=;expires=Thu, 01 Jan 1970 00:00:00 UTC'
+        location.reload()
+    }
+
+    haveUser = document.cookie == "" ? false : true
+    if (haveUser) document.getElementById("loginForm").innerHTML = document.getElementById("if").innerHTML
+    else document.getElementById("loginForm").innerHTML = document.getElementById("else").innerHTML
+</script>
+{tempEnd}

@@ -1,0 +1,18 @@
+{tempStart}
+<div>Join our IRC, click on "Connect":<br>
+<iframe width="350" height="500"
+    allowtransparency="true" frameborder="0"
+    sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" id="widgetIRC"></iframe><br>
+    </div>
+<script>
+    function reqListener() {
+        irc = JSON.parse(ircReq.responseText)
+        document.getElementById("widgetIRC").src = irc.widgetLink
+    }
+
+    var ircReq = new XMLHttpRequest();
+    ircReq.onload = reqListener;
+    ircReq.open("get", "/disp/json/irc", true);
+    ircReq.send();
+</script>
+{tempEnd}

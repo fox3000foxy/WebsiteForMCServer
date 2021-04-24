@@ -1,0 +1,26 @@
+{
+  "name": "site-lapcorp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run website\" \"npm run irc\"",
+    "website":"node .",
+    "irc": "cd lib/ && node build/."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^6.0.2",
+    "discord.js": "^12.5.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "mineflayer": "^3.6.0",
+    "node": "^16.0.0",
+    "prismarine-viewer": "^1.19.3"
+  }
+}

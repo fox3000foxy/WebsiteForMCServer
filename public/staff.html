@@ -1,0 +1,26 @@
+{tempStart}
+<div>
+    Les membres du staff sont:
+    <div class="w3-container">
+        <div class="w3-bar" id="rankList">
+        </div>
+    </div>
+    <script>
+        function reqListener() {
+            staff = JSON.parse(oReq.responseText)
+            for (i = 0; i < staff.length; i++) {
+                document.getElementById("rankList").innerHTML += `<div class="w3-bar-item">📌<br><span class="w3-large"></span>${staff[i].name}</li></span><br><span>${staff[i].rank}</span></div>`
+            }
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.onload = reqListener;
+        oReq.open("get", "/staff", true);
+        oReq.send();
+    </script>
+</div>
+{tempEnd}
+
+<div class="w3-bar-item"><span class="w3-largi"></span>
+</span><bri><span>
+</span></divi>

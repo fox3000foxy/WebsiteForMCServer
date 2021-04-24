@@ -1,0 +1,19 @@
+{tempStart}
+<div>
+    Our partnerships:
+    <div id="partnershipsList"><br></div>
+    <script>
+        function reqListener() {
+            partnershipsList = JSON.parse(oReq.responseText)
+            for (i = 0; i < partnershipsList.length; i++) {
+                document.getElementById("partnershipsList").innerHTML += "<li>" + partnershipsList[i].name + "</li>";
+            }
+        }
+
+        var oReq = new XMLHttpRequest();
+        oReq.onload = reqListener;
+        oReq.open("get", "/disp/json/partnerships", true);
+        oReq.send();
+    </script>
+</div>
+{tempEnd}

@@ -1,0 +1,19 @@
+{tempStart}
+<div id='aboutList'></div>
+<script>
+    function reqListener() {
+        aboutList = JSON.parse(oReq.responseText)
+        for (i = 0; i < aboutList.length; i++) {
+            document.getElementById("aboutList").innerHTML += `
+            <h5 style="font-family: Impact;font-style: italic;">${aboutList[i].title}</h5>
+            <h6>${aboutList[i].info}</h6><br>
+            `;
+        }
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.onload = reqListener;
+    oReq.open("get", "/disp/json/about", true);
+    oReq.send();
+</script>
+{tempEnd}

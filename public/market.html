@@ -1,0 +1,59 @@
+{tempStart}
+<div>Buy wath you want:</div><br><br>
+<div>
+    <div id="coins" style="text-align: right;font-size:20px">Sign in for know your score of <img
+            style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget"></div>
+    <div id="marketlist"
+        style="height: 75%;border:1px solid gray;text-align: left;font-size:20px;overflow-y: scroll;"><br>
+    </div>
+    <script>
+        let mcData;
+        let oReq;
+        function reqListener() {
+            marketArray = JSON.parse(oReq.responseText)
+            for (i = 0; i < marketArray.length; i++) {
+                document.getElementById("marketlist").innerHTML += `
+                <div class="align-left hover-gray" onclick="buy('${marketArray[i].name}',${marketArray[i].count},${marketArray[i].cost})">
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/${marketArray[i].name}">
+                    <sub>x${marketArray[i].count}</sub>
+                    ${mcData[marketArray[i].name].displayName}
+                     ⟷ 
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget">
+                    <sub>x${marketArray[i].cost}</sub>
+                </div>`;
+                if (i==marketArray.length-1) document.getElementById("marketlist").innerHTML += "<br>"
+            }
+        }
+
+        function buy(itemName, count, cost) {
+            if (document.cookie == "") location.href = "/login.html"
+            var oReq8 = new XMLHttpRequest();
+            oReq8.onload = getCoins;
+            oReq8.open("get", "/buy/" + itemName + "/" + count + "/" + cost + "/" + document.cookie.split("user=")[1], true);
+            oReq8.send();
+        }
+
+        function askItem() {
+            mcData = JSON.parse(oReq2.responseText)
+            oReq = new XMLHttpRequest();
+            oReq.onload = reqListener;
+            oReq.open("get", "/market", true);
+            oReq.send();
+        }
+
+        var oReq2 = new XMLHttpRequest();
+        oReq2.onload = askItem;
+        oReq2.open("get", "/mcData", true);
+        oReq2.send();
+
+        function getCoins() {
+            if (document.cookie == "") return;
+            var oReq3 = new XMLHttpRequest();
+            oReq3.onload = () => { document.getElementById("coins").innerHTML = `You have actually ${oReq3.responseText} <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget">` };
+            oReq3.open("get", "/coins/" + document.cookie.split("user=")[1], true);
+            oReq3.send();
+        }
+        getCoins()
+    </script>
+</div>
+{tempEnd}
