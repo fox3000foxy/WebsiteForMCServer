@@ -41,5 +41,5 @@ main
   |- serverConfig.json (Mineflayers bot connections depends of that)
 ```
 
-Bots must have access to /tellraw, /execute, /scoreboard and selectors...<br>
-A scoreboard with name "Coins" must be created
+Bots must have access to /tellraw, /execute, /scoreboard, /give and selectors...<br>
+A scoreboard with name "Coins" must be created and displayed.

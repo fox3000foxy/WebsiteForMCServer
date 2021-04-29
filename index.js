@@ -47,7 +47,6 @@ app.listen(port, () => {
 
 app.get('/coins/:user', (req, res) => {
     let coins = bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value.toString()
-
     res.send(coins)
 })
 
@@ -174,7 +173,12 @@ app.get('/buy/:item/:count/:cost/:user', (req, res) => {
     let marketFile = JSON.parse(fs.readFileSync("./data/market.json", () => {}))
     for (i = 0; i < marketFile.buyList.length; i++) {
         if (marketFile.buyList[i].name == req.params.item && marketFile.buyList[i].count == JSON.parse(req.params.count) && marketFile.buyList[i].cost == JSON.parse(req.params.cost)) {
-            bot.chat(`/execute if score ${req.params.user} ${COINBOARD_NAME} matches ${req.params.cost}.. run give ${req.params.user} ${req.params.item} ${req.params.count}`)
+            let tags;
+            if (JSON.stringify(marketFile.buyList[i].tags))
+                tags = JSON.stringify(marketFile.buyList[i].tags)
+            else
+                tags = ""
+            bot.chat(`/execute if score ${req.params.user} ${COINBOARD_NAME} matches ${req.params.cost}.. run give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
             bot.chat(`/execute if score ${req.params.user} ${COINBOARD_NAME} matches ${req.params.cost}.. run scoreboard players remove ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
         }
     }

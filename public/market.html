@@ -25,11 +25,23 @@
         function reqListener() {
             buyItem = JSON.parse(oReq.responseText).buyList
             for (i = 0; i < buyItem.length; i++) {
+                if (buyItem[i].tags)
+                    if (buyItem[i].tags.display)
+                        name = JSON.parse(buyItem[i].tags.display.Name)[i].text
+                    else
+                        name = mcData[buyItem[i].name].displayName
+                else
+                    name = mcData[buyItem[i].name].displayName
+
+                if (buyItem[i].texture)
+                    imageUrl = `/item/${buyItem[i].texture}`
+                else
+                    imageUrl = `/item/${buyItem[i].name}`
                 document.getElementById("marketlist").innerHTML += `
                 <div class="align-left hover-gray" onclick="buy('${buyItem[i].name}',${buyItem[i].count},${buyItem[i].cost})">
-                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/${buyItem[i].name}">
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="${imageUrl}">
                     <sub>x${buyItem[i].count}</sub>
-                    ${mcData[buyItem[i].name].displayName}
+                    ${name}
                      ⟷ 
                     <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif">
                     <sub>x${buyItem[i].cost}</sub>
