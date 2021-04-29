@@ -1,72 +1,47 @@
-[
-    {
-        "name": "netherite_sword",
-        "count": 1,
-        "cost": 15
-    },
-    {
-        "name": "netherite_pickaxe",
-        "count": 1,
-        "cost": 15
-    },
-    {
-        "name": "netherite_axe",
-        "count": 1,
-        "cost": 15
-    },
-    {
-        "name": "bow",
-        "count": 1,
-        "cost": 15
-    },
-    {
-        "name": "netherite_shovel",
-        "count": 1,
-        "cost": 15
-    },
-    {
-        "name": "golden_apple",
-        "count": 1,
-        "cost": 45
-    },
-    {
-        "name": "trident",
-        "count": 1,
-        "cost": 45
-    },
-    {
-        "name": "firework_rocket",
-        "count": 64,
-        "cost": 45
-    },
-    {
-        "name": "elytra",
-        "count": 1,
-        "cost": 45
-    },
-    {
-        "name": "netherite_helmet",
-        "count": 1,
-        "cost": 30
-    },
-    {
-        "name": "netherite_chestplate",
-        "count": 1,
-        "cost": 30
-    },
-    {
-        "name": "netherite_leggings",
-        "count": 1,
-        "cost": 30
-    },
-    {
-        "name": "netherite_boots",
-        "count": 1,
-        "cost": 30
-    },
-    {
-        "name": "arrow",
-        "count": 64,
-        "cost": 30
-    }
-]
+{
+    "buyList": [{
+            "name": "iron_sword",
+            "count": 1,
+            "cost": 15,
+            "tags": {
+
+            }
+        },
+        {
+            "name": "iron_pickaxe",
+            "count": 1,
+            "cost": 15
+        },
+        {
+            "name": "iron_axe",
+            "count": 1,
+            "cost": 15
+        },
+        {
+            "name": "bow",
+            "count": 1,
+            "cost": 15
+        }
+    ],
+    "sellList": [{
+            "name": "coal",
+            "count": 1,
+            "cost": 10
+        },
+        {
+            "name": "iron_ingot",
+            "count": 1,
+            "cost": 20
+        },
+        {
+            "name": "emerald",
+            "count": 1,
+            "cost": 50
+        },
+        {
+            "name": "diamond",
+            "count": 1,
+            "cost": 100
+        }
+    ]
+}

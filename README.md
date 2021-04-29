@@ -19,6 +19,7 @@ main
       |- partnerships.json (database of parterships name)
       |- tabs.json (set tabs name)
       |- titles.json (set titles under tabs)
+  |- imgException (place an image with the name of the selected item for replace that default image by this image)
   |- lib (irc library, see !https://github.com/fox3000foxy/DiscordMC_IRC)
   |- public
       |- fonts

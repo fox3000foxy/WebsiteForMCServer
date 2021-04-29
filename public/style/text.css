@@ -2,7 +2,9 @@ body {
     background-image: url("/images/lapcorpspoil.png");
 }
 
-div, h1, h3 {
+div,
+h1,
+h3 {
     background-color: black;
     text-align: center;
     margin: 0 25px;
@@ -15,7 +17,8 @@ div, h1, h3 {
     border-right: 3px solid white;
 }
 
-h1, .title {
+h1,
+.title {
     font-family: Impact;
 }
 
@@ -86,12 +89,13 @@ h1, .title {
     background: none
 }
 
-input, textarea {
+input.t45,
+textarea {
     border-radius: 15px;
     width: 45%
 }
 
-form {
+form.login {
     border-radius: 15px;
     border: 3px dashed white
 }

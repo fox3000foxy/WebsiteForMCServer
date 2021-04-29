@@ -3,8 +3,7 @@
     <div>
         There is feedbacks of our players:<br>
     </div><br>
-    <div id="feedbacksList"
-        style="width: 95%;height:50%;text-align: left;border: 10px inset white; padding: 2%; overflow-y: scroll;">
+    <div id="feedbacksList" style="width: 95%;height:50%;text-align: left;border: 10px inset white; padding: 2%; overflow-y: scroll;">
     </div>
     <script>
         function reqListener() {
@@ -23,7 +22,7 @@
     <form name="feed" method="post" action="./feedback.html" onsubmit="if(!confirm('Envoyer ?')) event.preventDefault() 
         else document.getElementById('name').disabled = false">
         <br>
-        <label for="name"><input placeholder="Votre nom..." id="name" name="name" /></label><br>
+        <label for="name"><input placeholder="Votre nom..." id="name" name="name" class="t45"></label><br>
         <script>
             if (document.cookie == "") document.getElementById("name").value = ""
             else {
@@ -31,7 +30,7 @@
                 document.getElementById("name").disabled = true;
             }
         </script>
-        <label for="feedback"><textarea placeholder="Votre avis..." name="feedback"></textarea></label><br><br>
+        <label for="feedback"><textarea placeholder="Votre avis..." name="feedback" class="t45"></textarea></label><br><br>
         <input type="submit" />
         <br><br>
     </form>

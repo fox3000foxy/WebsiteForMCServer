@@ -1,27 +1,54 @@
 {tempStart}
 <div>Buy wath you want:</div><br><br>
 <div>
-    <div id="coins" style="text-align: right;font-size:20px">Sign in for know your score of <img
-            style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget"></div>
-    <div id="marketlist"
-        style="height: 75%;border:1px solid gray;text-align: left;font-size:20px;overflow-y: scroll;"><br>
+    <div id="coins" style="text-align: right;font-size:20px">Sign in for know your score of <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif"></div>
+    <div id="marketlist" style="height: 70%;border:1px solid gray;text-align: left;font-size:20px;overflow-y: scroll;">
+        <br>
     </div>
     <script>
         let mcData;
         let oReq;
+
+        function getPlayers() {
+            pReq = new XMLHttpRequest();
+            pReq.onload = () => {
+                playerArray = JSON.parse(pReq.responseText)
+                for (i = 0; i < playerArray.length; i++) {
+                    if (playerArray[i] != document.cookie.split("user=")[1])
+                        document.getElementById("playerList").innerHTML += "<option>" + playerArray[i] + "</option>";
+                }
+            };
+            pReq.open("get", "/players", true);
+            pReq.send();
+        }
+
         function reqListener() {
-            marketArray = JSON.parse(oReq.responseText)
-            for (i = 0; i < marketArray.length; i++) {
+            buyItem = JSON.parse(oReq.responseText).buyList
+            for (i = 0; i < buyItem.length; i++) {
                 document.getElementById("marketlist").innerHTML += `
-                <div class="align-left hover-gray" onclick="buy('${marketArray[i].name}',${marketArray[i].count},${marketArray[i].cost})">
-                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/${marketArray[i].name}">
-                    <sub>x${marketArray[i].count}</sub>
-                    ${mcData[marketArray[i].name].displayName}
+                <div class="align-left hover-gray" onclick="buy('${buyItem[i].name}',${buyItem[i].count},${buyItem[i].cost})">
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/${buyItem[i].name}">
+                    <sub>x${buyItem[i].count}</sub>
+                    ${mcData[buyItem[i].name].displayName}
                      ⟷ 
-                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget">
-                    <sub>x${marketArray[i].cost}</sub>
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif">
+                    <sub>x${buyItem[i].cost}</sub>
                 </div>`;
-                if (i==marketArray.length-1) document.getElementById("marketlist").innerHTML += "<br>"
+                if (i == buyItem.length - 1) document.getElementById("marketlist").innerHTML += "<br>"
+            }
+
+            sellItem = JSON.parse(oReq.responseText).sellList
+            for (i = 0; i < sellItem.length; i++) {
+                document.getElementById("marketlist").innerHTML += `
+                <div class="align-left hover-gray" onclick="sell('${sellItem[i].name}',${sellItem[i].count},${sellItem[i].cost})">
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif">
+                    <sub>x${sellItem[i].cost}</sub>
+                     ⟷ 
+                     <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/${sellItem[i].name}">
+                    <sub>x${sellItem[i].count}</sub>
+                    ${mcData[sellItem[i].name].displayName}
+                </div>`;
+                if (i == sellItem.length - 1) document.getElementById("marketlist").innerHTML += "<br>"
             }
         }
 
@@ -30,6 +57,14 @@
             var oReq8 = new XMLHttpRequest();
             oReq8.onload = getCoins;
             oReq8.open("get", "/buy/" + itemName + "/" + count + "/" + cost + "/" + document.cookie.split("user=")[1], true);
+            oReq8.send();
+        }
+
+        function sell(itemName, count, cost) {
+            if (document.cookie == "") location.href = "/login.html"
+            var oReq8 = new XMLHttpRequest();
+            oReq8.onload = getCoins;
+            oReq8.open("get", "/sell/" + itemName + "/" + count + "/" + cost + "/" + document.cookie.split("user=")[1], true);
             oReq8.send();
         }
 
@@ -49,7 +84,25 @@
         function getCoins() {
             if (document.cookie == "") return;
             var oReq3 = new XMLHttpRequest();
-            oReq3.onload = () => { document.getElementById("coins").innerHTML = `You have actually ${oReq3.responseText} <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/item/gold_nugget">` };
+            oReq3.onload = () => {
+                getCoinsForm = `
+                <form method="POST" action="market.html" id="giveCoins" style="text-align: right;font-size:20px;">Give
+                    <input type="number" id="numberOf" name="numberOf" value=0 onblur="
+                    if(JSON.parse(this.value)>=this.max) this.value=this.max;
+                    if(JSON.parse(this.value)<=this.min) this.value=this.min;
+                    ">
+                    <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif"> to 
+                    <select name="render" id="playerList" onchange="this.form.submit()">
+                        <option>-- Select player --</option>
+                    </select>
+                    <input name="user" type="hidden" name="user">
+                </form>`
+                document.getElementById("coins").innerHTML = `You have actually ${oReq3.responseText} <img style="image-rendering: crisp-edges;" width="32px" height="32px" src="/images/coin.gif">${getCoinsForm}`
+                document.getElementById('numberOf').min = 0
+                document.getElementById('numberOf').max = parseInt(oReq3.responseText)
+                document.forms.giveCoins.user.value = document.cookie.split('user=')[1]
+                getPlayers()
+            };
             oReq3.open("get", "/coins/" + document.cookie.split("user=")[1], true);
             oReq3.send();
         }

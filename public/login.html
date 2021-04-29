@@ -2,7 +2,7 @@
 <div id="loginForm" style="font-size:20px">
 </div>
 <div style="visibility: hidden;" id="if">
-    <form action="/login.html" method="get" onsubmit="disconnect()">
+    <form action="/login.html" method="get" onsubmit="disconnect()" class="login">
         <br>
         <div style='font-family: Impact;'>Logged</div>
         <div id="loggedAs"></div><br>
@@ -14,11 +14,11 @@
     </form>
 </div>
 <div style="visibility: hidden;" id="else">
-    <form method="post" action="/login.html">
+    <form method="post" action="/login.html" class="login">
         <br>
         <div style='font-family: Impact;'>Login</div>
-        <input name="user" placeholder="Your name..."><br>
-        <input name="password" type="password" placeholder="Your password..."><br><br>
+        <input name="user" placeholder="Your name..." class="t45"><br>
+        <input name="password" type="password" placeholder="Your password..." class="t45"><br><br>
         <input type="submit">
         <br><br>
     </form>
@@ -30,13 +30,13 @@
         else
         {
             this.submit()        
-        }">
+        }" class="login">
         <br>
         <div style='font-family: Impact;'>Sign Up</div>
-        <input name="user" placeholder="Your name..."><br>
-        <input name="password" type="password" placeholder="Your password..."><br>
-        <input name="confirmpassword" type="password" placeholder="Your password again..."><br>
-        <input name="nameig" placeholder="Your name in game..."><br><br>
+        <input name="user" placeholder="Your name..." class="t45"><br>
+        <input name="password" type="password" placeholder="Your password..." class="t45"><br>
+        <input name="confirmpassword" type="password" placeholder="Your password again..." class="t45"><br>
+        <input name="nameig" placeholder="Your name in game..." class="t45"><br><br>
         <input type="submit">
         <br><br>
     </form>
