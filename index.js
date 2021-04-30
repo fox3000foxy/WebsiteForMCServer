@@ -120,8 +120,10 @@ app.post('/market.html', (req, res) => {
     final = final.toString().replace("{tempEnd}", tempEnd)
     res.send(final)
 
-    bot.chat(`/execute if score ${req.body.user} ${COINBOARD_NAME} matches ${req.body.numberOf}.. run scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
-    bot.chat(`/execute if score ${req.body.user} ${COINBOARD_NAME} matches ${req.body.numberOf}.. run scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
+			if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value >= req.params.cost){
+    bot.chat(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
+    bot.chat(`/scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
+			}
 })
 
 app.post('/login.html', (req, res) => {
@@ -207,11 +209,9 @@ app.get('/buy/:item/:count/:cost/:user', (req, res) => {
             else
                 tags = ""
 			if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value >= req.params.cost){
-				console.log(`/give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
             bot.chat(`/give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
             bot.chat(`/scoreboard players remove ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
 			}
-			else console.log("non")
 			
         }
     }
