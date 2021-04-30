@@ -8,38 +8,24 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000
 const params = JSON.parse(fs.readFileSync("./serverConfig.json", "utf8"))
 const mcData = require("minecraft-data")(params.version)
+ 
+ const localtunnel = require('localtunnel');
 
+(async () => {
+  const tunnel = await localtunnel({ port: 3000 , subdomain:params.subdomain});
+  // the assigned public url for your tunnel
+  // i.e. https://abcdefgjhij.localtunnel.me
+  tunnel.url;
+
+  tunnel.on('close', () => {
+    // tunnels are closed
+  });
+})();
+ 
 const electron = require('electron');
 const { Tray, Menu } = require('electron');
 
-// const elecApp = electron.app;
-// const BrowserWindow = electron.BrowserWindow;
-// const iconPath = 'public/images/logo.png'
-
-// function createWindow() {
-
-    // mainWindow = new BrowserWindow({
-        // width: 1200,
-        // height: 1000,
-        // icon: iconPath,
-        // titleBarStyle: 'hidden',
-    // });
-    // mainWindow.loadURL(`http://localhost:3000`); // on doit charger un chemin absolu
-
-    // mainWindow.on('closed', () => {
-        // mainWindow = null;
-    // });
-
-// }
-
-// elecApp.on('ready', createWindow);
-// elecApp.on('window-all-closed', () => {
-    // if (process.platform !== 'darwin') {
-        // elecApp.quit();
-    // }
-// });
-
-params["username"] = "InfosBot"
+params["username"] = "LegniaWeb"
 const bot = mineflayer.createBot(params)
 
 app.get('/mcData', (req, res) => {
@@ -71,9 +57,20 @@ bot.on('spawn', () => {
         mineflayerViewer(bot, { port: 3001 })
     taken = 1
     console.log("Info bot ready !")
+	bot.chat("/register WebMDP WebMDP")
+	bot.chat("/login WebMDP")
+	
+	// bot.on('message',(mess)=>{
+		// if (mess.extra)
+			// if (mess.extra.length == 7)
+				// console.log(mess.extra[6].text.split(" $")[1])
+			// else console.log(mess)
+	// })
+	// setTimeout(()=>{bot.chat('/money _Fox3000_')},1000)
 })
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`Example app listening at http://localhost:${port} and on https://${params.subdomain}.loca.lt`)
 })
 
 app.get('/coins/:user', (req, res) => {
@@ -209,8 +206,13 @@ app.get('/buy/:item/:count/:cost/:user', (req, res) => {
                 tags = JSON.stringify(marketFile.buyList[i].tags)
             else
                 tags = ""
-            bot.chat(`/execute if score ${req.params.user} ${COINBOARD_NAME} matches ${req.params.cost}.. run give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
-            bot.chat(`/execute if score ${req.params.user} ${COINBOARD_NAME} matches ${req.params.cost}.. run scoreboard players remove ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
+			if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value >= req.params.cost){
+				console.log(`/give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
+            bot.chat(`/give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
+            bot.chat(`/scoreboard players remove ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
+			}
+			else console.log("non")
+			
         }
     }
 
@@ -220,8 +222,8 @@ app.get('/sell/:item/:count/:cost/:user', (req, res) => {
     let marketFile = JSON.parse(fs.readFileSync("./data/market.json", () => {}))
     for (i = 0; i < marketFile.sellList.length; i++) {
         if (marketFile.sellList[i].name == req.params.item && marketFile.sellList[i].count == JSON.parse(req.params.count) && marketFile.sellList[i].cost == JSON.parse(req.params.cost)) {
-            bot.chat(`/execute if entity @p[nbt={Inventory:[{id:"minecraft:${req.params.item}"}]}] run clear ${req.params.user} ${req.params.item} ${req.params.count}`)
-            bot.chat(`/execute if entity @p[nbt={Inventory:[{id:"minecraft:${req.params.item}"}]}] run scoreboard players add ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
+            bot.chat(`/clear ${req.params.user} ${req.params.item} ${req.params.count}`)
+            bot.chat(`/scoreboard players add ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
         }
     }
 
