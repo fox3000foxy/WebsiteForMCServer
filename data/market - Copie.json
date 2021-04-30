@@ -22,6 +22,25 @@
             "cost": 15
         }
     ],
-    "sellList": [
+    "sellList": [{
+            "name": "coal",
+            "count": 1,
+            "cost": 10
+        },
+        {
+            "name": "iron_ingot",
+            "count": 1,
+            "cost": 20
+        },
+        {
+            "name": "emerald",
+            "count": 1,
+            "cost": 50
+        },
+        {
+            "name": "diamond",
+            "count": 1,
+            "cost": 100
+        }
     ]
 }

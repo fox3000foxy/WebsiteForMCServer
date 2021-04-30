@@ -1,5 +1,6 @@
 {
-    "host": "localhost",
-    "port": 53803,
-    "version": "1.16.5"
+    "host": "nasmaison.duckdns.org",
+    "port": 25565,
+    "version": "1.12.2",
+    "subdomain" : "legnia"
 }
