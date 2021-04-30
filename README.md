@@ -49,9 +49,9 @@ For the market:
 ...
           {
             "name": "iron_sword", (minecraft if of the item) 
-            "count": 1, (count of item buyed in one time)
-            "tags": { "display": { "Name": "[{\"text\":\"Hi :)\"}]" } }, (like /give @p item{tags})
-            "cost": 15, (cost of the item)
+            "count": 1 (count of item buyed in one time),
+            "tags": { "display": { "Name": "[{\"text\":\"Hi :)\"}]" } } (like /give @p item{tags}),
+            "cost": 15 (cost of the item),
             "texture": "coin" (texture if you want texture exception for this item, or for CustomModelData)
         },
 ...
