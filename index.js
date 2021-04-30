@@ -119,11 +119,10 @@ app.post('/market.html', (req, res) => {
     let final = file.toString().replace("{tempStart}", tempStart)
     final = final.toString().replace("{tempEnd}", tempEnd)
     res.send(final)
-
-			if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value >= req.params.cost){
-    bot.chat(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
-    bot.chat(`/scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
-			}
+			// if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.body.user].value >= req.params.cost){
+				// bot.chat(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
+				// bot.chat(`/scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
+			// }
 })
 
 app.post('/login.html', (req, res) => {
