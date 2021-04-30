@@ -8,8 +8,7 @@
     "start": "concurrently \"npm run website\" \"npm run app\"",
     "start-irc": "concurrently \"npm run website\" \"npm run irc\" \"npm run app\"",
     "website": "node .",
-    "irc": "cd lib/ && node build/.",
-    "app": "electron app"
+    "app": "electron ."
   },
   "keywords": [],
   "author": "",
@@ -19,11 +18,13 @@
     "concurrently": "^6.0.2",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
-    "electron": "^12.0.5",
     "express": "^4.17.1",
     "http": "0.0.1-security",
     "mineflayer": "^3.6.0",
     "node": "^16.0.0",
     "prismarine-viewer": "^1.19.3"
+  },
+  "devDependencies":{
+    "electron": "^12.0.5"
   }
 }

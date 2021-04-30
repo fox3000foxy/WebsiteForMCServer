@@ -8,6 +8,37 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000
 const params = JSON.parse(fs.readFileSync("./serverConfig.json", "utf8"))
 const mcData = require("minecraft-data")(params.version)
+
+const electron = require('electron');
+const { Tray, Menu } = require('electron');
+
+// const elecApp = electron.app;
+// const BrowserWindow = electron.BrowserWindow;
+// const iconPath = 'public/images/logo.png'
+
+// function createWindow() {
+
+    // mainWindow = new BrowserWindow({
+        // width: 1200,
+        // height: 1000,
+        // icon: iconPath,
+        // titleBarStyle: 'hidden',
+    // });
+    // mainWindow.loadURL(`http://localhost:3000`); // on doit charger un chemin absolu
+
+    // mainWindow.on('closed', () => {
+        // mainWindow = null;
+    // });
+
+// }
+
+// elecApp.on('ready', createWindow);
+// elecApp.on('window-all-closed', () => {
+    // if (process.platform !== 'darwin') {
+        // elecApp.quit();
+    // }
+// });
+
 params["username"] = "InfosBot"
 const bot = mineflayer.createBot(params)
 
