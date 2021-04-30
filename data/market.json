@@ -2,9 +2,7 @@
     "buyList": [{
             "name": "iron_sword",
             "count": 1,
-            "tags": { "display": { "Name": "[{\"text\":\"Hi :)\"}]" } },
-            "cost": 15,
-            "texture": "coin"
+            "cost": 15
         },
         {
             "name": "iron_pickaxe",

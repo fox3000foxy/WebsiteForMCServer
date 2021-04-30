@@ -10,7 +10,6 @@ const params = JSON.parse(fs.readFileSync("./serverConfig.json", "utf8"))
 const mcData = require("minecraft-data")(params.version)
  
  const localtunnel = require('localtunnel');
-
 (async () => {
   const tunnel = await localtunnel({ port: 3000 , subdomain:params.subdomain});
   // the assigned public url for your tunnel
@@ -21,6 +20,7 @@ const mcData = require("minecraft-data")(params.version)
     // tunnels are closed
   });
 })();
+ 
  
 const electron = require('electron');
 const { Tray, Menu } = require('electron');
@@ -59,7 +59,7 @@ bot.on('spawn', () => {
     console.log("Info bot ready !")
 	bot.chat("/register WebMDP WebMDP")
 	bot.chat("/login WebMDP")
-	
+	setInterval(()=>{bot.chat("Notre site est https://"+params.subdomain+".loca.lt/")},60000)
 	// bot.on('message',(mess)=>{
 		// if (mess.extra)
 			// if (mess.extra.length == 7)
