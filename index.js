@@ -3,12 +3,13 @@ const fs = require('fs')
 const mineflayer = require('mineflayer')
 const mineflayerViewer = require('prismarine-viewer').mineflayer
 const bodyParser = require("body-parser");
+const request = require('request')
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }));
 const port = 3000
 const params = JSON.parse(fs.readFileSync("./serverConfig.json", "utf8"))
 const mcData = require("minecraft-data")(params.version)
- 
+ let gitURL = params.gitURL
  const localtunnel = require('localtunnel');
 (async () => {
   const tunnel = await localtunnel({ port: 3000 , subdomain:params.subdomain});
@@ -20,7 +21,6 @@ const mcData = require("minecraft-data")(params.version)
     // tunnels are closed
   });
 })();
- 
  
 const electron = require('electron');
 const { Tray, Menu } = require('electron');
@@ -59,14 +59,7 @@ bot.on('spawn', () => {
     console.log("Info bot ready !")
 	bot.chat("/register WebMDP WebMDP")
 	bot.chat("/login WebMDP")
-	setInterval(()=>{bot.chat("Notre site est https://"+params.subdomain+".loca.lt/")},60000)
-	// bot.on('message',(mess)=>{
-		// if (mess.extra)
-			// if (mess.extra.length == 7)
-				// console.log(mess.extra[6].text.split(" $")[1])
-			// else console.log(mess)
-	// })
-	// setTimeout(()=>{bot.chat('/money _Fox3000_')},1000)
+	setInterval(()=>{bot.chat("Notre site est https://"+params.subdomain+".loca.lt/")},150000)
 })
 
 app.listen(port, () => {
@@ -118,11 +111,14 @@ app.post('/market.html', (req, res) => {
     let file = fs.readFileSync("./public/market.html", () => {})
     let final = file.toString().replace("{tempStart}", tempStart)
     final = final.toString().replace("{tempEnd}", tempEnd)
+	if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.body.user].value >= req.body.numberOf){
+		console.log(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
+		bot.chat(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
+		bot.chat(`/scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
+	}
+	else console.log(bot.scoreboards[COINBOARD_NAME].itemsMap[req.body.user].value,",",req.body.numberOf)
+
     res.send(final)
-			// if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.body.user].value >= req.params.cost){
-				// bot.chat(`/scoreboard players add ${req.body.render} ${COINBOARD_NAME} ${req.body.numberOf}`)
-				// bot.chat(`/scoreboard players remove ${req.body.user} ${COINBOARD_NAME} ${req.body.numberOf}`)
-			// }
 })
 
 app.post('/login.html', (req, res) => {
@@ -173,11 +169,28 @@ function feedPush(params) {
 }
 
 app.get('/item/:item', (req, res) => {
-    res.sendFile(__dirname + "/imgException/" + req.params.item + ".png", () => {
-        res.sendFile(__dirname + "/node_modules/prismarine-viewer/public/textures/1.16.4/items/" + req.params.item + ".png", () => {
-            res.sendFile(__dirname + "/public/images/undefined_item.png")
-        })
-    })
+	res.setHeader('Content-Type', 'image/png');
+	
+    var requestSettings = {
+        url: gitURL+'/imgException/'+req.params.item+'.png',
+        method: 'GET',
+        encoding: null
+    };
+
+    request(requestSettings, function(error, response, body) {
+		
+		if(body.toString() == "404: Not Found"){
+				res.sendFile(__dirname + "/node_modules/prismarine-viewer/public/textures/1.16.4/items/" + req.params.item + ".png", () => {
+					res.sendFile(__dirname + "/public/images/undefined_item.png",()=>{})
+				})
+		}
+		else{
+			res.set('Content-Type', 'image/png');
+			res.send(body);
+		}
+    });
+	
+
 })
 
 app.get('/', (req, res) => {
@@ -199,7 +212,14 @@ app.get('/:page', (req, res) => {
 })
 
 app.get('/buy/:item/:count/:cost/:user', (req, res) => {
-    let marketFile = JSON.parse(fs.readFileSync("./data/market.json", () => {}))
+	    var requestSettings = {
+        url: gitURL+'/market.json',
+        method: 'GET',
+        encoding: null
+    };
+
+    request(requestSettings, function(error, response, body) {
+    let marketFile = JSON.parse(body)
     for (i = 0; i < marketFile.buyList.length; i++) {
         if (marketFile.buyList[i].name == req.params.item && marketFile.buyList[i].count == JSON.parse(req.params.count) && marketFile.buyList[i].cost == JSON.parse(req.params.cost)) {
             let tags;
@@ -208,7 +228,7 @@ app.get('/buy/:item/:count/:cost/:user', (req, res) => {
             else
                 tags = ""
 			if (bot.scoreboards[COINBOARD_NAME].itemsMap[req.params.user].value >= req.params.cost){
-            bot.chat(`/give ${req.params.user} ${req.params.item}${tags} ${req.params.count}`)
+            bot.chat(`/give ${req.params.user} ${req.params.item} ${req.params.count} 0 ${tags}`)
             bot.chat(`/scoreboard players remove ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
 			}
 			
@@ -216,17 +236,28 @@ app.get('/buy/:item/:count/:cost/:user', (req, res) => {
     }
 
     res.send("Ok")
+	})
 })
-app.get('/sell/:item/:count/:cost/:user', (req, res) => {
-    let marketFile = JSON.parse(fs.readFileSync("./data/market.json", () => {}))
+app.get('/sell/:item/:count/:cost/:user', (req, res) => {	    var requestSettings = {
+        url: gitURL+'/market.json',
+        method: 'GET',
+        encoding: null
+    };
+
+    request(requestSettings, function(error, response, body) {
+    let marketFile = JSON.parse(body)
     for (i = 0; i < marketFile.sellList.length; i++) {
         if (marketFile.sellList[i].name == req.params.item && marketFile.sellList[i].count == JSON.parse(req.params.count) && marketFile.sellList[i].cost == JSON.parse(req.params.cost)) {
-            bot.chat(`/clear ${req.params.user} ${req.params.item} ${req.params.count}`)
-            bot.chat(`/scoreboard players add ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
+			if (bot.players[req.params.user].entity.heldItem != null)
+            if (bot.players[req.params.user].entity.heldItem.name == req.params.item){
+				bot.chat(`/clear ${req.params.user} ${req.params.item} ${req.params.count}`)
+				bot.chat(`/scoreboard players add ${req.params.user} ${COINBOARD_NAME} ${req.params.cost}`)
+			}
         }
     }
 
     res.send("Ok")
+	})
 })
 
 app.use(express.static('public'));

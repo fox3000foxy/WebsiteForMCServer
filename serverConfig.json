@@ -2,5 +2,6 @@
     "host": "nasmaison.duckdns.org",
     "port": 25565,
     "version": "1.12.2",
-    "subdomain" : "legnia"
+    "subdomain" : "legn",
+    "gitURL": "https://raw.githubusercontent.com/fox3000foxy/legnia-config/main"
 }

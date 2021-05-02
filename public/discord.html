@@ -12,7 +12,7 @@
 
     var ircReq = new XMLHttpRequest();
     ircReq.onload = reqListener;
-    ircReq.open("get", "/disp/json/irc", true);
+    ircReq.open("get", gitURL+"/irc.json", true);
     ircReq.send();
 </script>
 {tempEnd}

@@ -28,7 +28,7 @@ this.style.visibility = 'hidden'
 
     var mapReq = new XMLHttpRequest();
     mapReq.onload = reqListener;
-    mapReq.open("get", "/disp/json/map", true);
+    mapReq.open("get", gitURL+"/map.json", true);
     mapReq.send();
 </script>
 {tempEnd}

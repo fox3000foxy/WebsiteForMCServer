@@ -27,7 +27,7 @@
             for (i = 0; i < buyItem.length; i++) {
                 if (buyItem[i].tags)
                     if (buyItem[i].tags.display)
-                        name = JSON.parse(buyItem[i].tags.display.Name)[i].text
+                        name = buyItem[i].tags.display.LocName
                     else
                         name = mcData[buyItem[i].name].displayName
                 else
@@ -84,7 +84,7 @@
             mcData = JSON.parse(oReq2.responseText)
             oReq = new XMLHttpRequest();
             oReq.onload = reqListener;
-            oReq.open("get", "/market", true);
+            oReq.open("get", gitURL+"/market.json", true);
             oReq.send();
         }
 

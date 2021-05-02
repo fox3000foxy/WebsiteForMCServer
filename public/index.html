@@ -11,7 +11,7 @@
     }
     var mapReq = new XMLHttpRequest();
     mapReq.onload = reqListener;
-    mapReq.open("get", "/disp/json/main", true);
+    mapReq.open("get", gitURL+"/main.json", true);
     mapReq.send();
 </script>
 <br> {tempEnd}

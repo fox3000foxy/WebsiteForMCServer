@@ -29,7 +29,8 @@
         <div id="description" class="title"></div><br>
     </div>
     <script>
-        function reqListener() {
+		gitURL = "https://raw.githubusercontent.com/fox3000foxy/legnia-config/main"
+       function reqListener() {
             tabs = JSON.parse(tabsReq.responseText)
             document.getElementById("staff").innerHTML = tabs.staff
             document.getElementById("features").innerHTML = tabs.features
@@ -46,7 +47,7 @@
         }
         tabsReq = new XMLHttpRequest();
         tabsReq.onload = reqListener;
-        tabsReq.open("get", "/disp/json/tabs", true);
+        tabsReq.open("get", gitURL+"/tabs.json", true);
         tabsReq.send();
 
         function setTitle() {
@@ -58,7 +59,7 @@
 
         titleReq = new XMLHttpRequest();
         titleReq.onload = setTitle;
-        titleReq.open("get", "/disp/json/titles", true);
+        titleReq.open("get", gitURL+"/titles.json", true);
         titleReq.send();
     </script>
     <div class="white-border" style="height:72%">
